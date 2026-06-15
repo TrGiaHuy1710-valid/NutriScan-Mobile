@@ -148,8 +148,8 @@ void main() {
       final reloadedWorkoutRepository = SqliteWorkoutRepository(database);
       final reloadedWorkout = await reloadedWorkoutRepository
           .getScheduledWorkoutToday();
-      expect(reloadedWorkout?.isCompleted, true);
-      expect(reloadedWorkout?.estimatedCaloriesBurned, 35);
+       expect(reloadedWorkout?.isCompleted, true);
+      expect(reloadedWorkout?.estimatedCaloriesBurned, 40);
 
       await authRepository.logout();
       expect(await authRepository.getCurrentUser(), isNull);
@@ -325,27 +325,31 @@ void main() {
     await pumpUi(tester);
 
     expect(find.text('Workout Plan'), findsOneWidget);
-    expect(find.text('17:30 - 18:00'), findsOneWidget);
-    expect(find.text('10-min Stretching'), findsOneWidget);
+    // Tap the 30m slot chip to open suggestions:
+    await tester.tap(find.byKey(const Key('freeTimeChip_30m')));
+    await pumpUi(tester);
+
+    expect(find.text('Workout Suggestions'), findsOneWidget);
+    expect(find.text('30-Min Cardio & Stretch'), findsOneWidget);
 
     await tester.scrollUntilVisible(
-      find.byKey(const Key('scheduleWorkoutButton_workout_001')),
+      find.byKey(const Key('scheduleWorkoutButton_workout_30m_stretch')),
       120,
     );
     await tester.ensureVisible(
-      find.byKey(const Key('scheduleWorkoutButton_workout_001')),
+      find.byKey(const Key('scheduleWorkoutButton_workout_30m_stretch')),
     );
     await pumpUi(tester);
     await tester.tap(
-      find.byKey(const Key('scheduleWorkoutButton_workout_001')),
+      find.byKey(const Key('scheduleWorkoutButton_workout_30m_stretch')),
     );
     await pumpUi(tester);
 
     await tester.scrollUntilVisible(
-      find.text('10-min Stretching - 10 min'),
+      find.text('30-Min Cardio & Stretch - 30 min'),
       300,
     );
-    expect(find.text('10-min Stretching - 10 min'), findsOneWidget);
+    expect(find.text('30-Min Cardio & Stretch - 30 min'), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('workoutTab')));
     await pumpUi(tester);
@@ -360,7 +364,7 @@ void main() {
     );
     await pumpUi(tester);
     final completeButton = find.byKey(
-      const Key('completeWorkoutButton_workout_001'),
+      const Key('completeWorkoutButton_workout_30m_stretch'),
     );
     await tester.tapAt(
       tester.getTopLeft(completeButton) + const Offset(80, 20),
@@ -368,7 +372,7 @@ void main() {
     await pumpUi(tester);
 
     await scrollDashboardTop(tester);
-    expect(find.text('905 net kcal'), findsOneWidget);
-    expect(find.text('Estimated burned: 35 kcal'), findsOneWidget);
+    expect(find.text('870 net kcal'), findsOneWidget);
+    expect(find.text('Estimated burned: 150 kcal'), findsOneWidget);
   });
 }

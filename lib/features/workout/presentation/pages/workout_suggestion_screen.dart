@@ -178,8 +178,8 @@ class WorkoutSuggestionScreen extends StatelessWidget {
     if (workout.durationMinutes > selectedSlot.durationMinutes) {
       showDialog(
         context: context,
-        key: const Key('scheduleValidationDialog'),
         builder: (context) => AlertDialog(
+          key: const Key('scheduleValidationDialog'),
           title: Row(
             children: const [
               Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 28),
@@ -346,9 +346,7 @@ class _WorkoutSuggestionCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             // Exercises details (Step list)
-            ...workout.exercises.asMap().entries.map((entry) {
-              final idx = entry.key;
-              final block = entry.value;
+            ...workout.exercises.map((block) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Row(
@@ -368,7 +366,7 @@ class _WorkoutSuggestionCard extends StatelessWidget {
                   ],
                 ),
               );
-            }).toList(),
+            }),
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 8),

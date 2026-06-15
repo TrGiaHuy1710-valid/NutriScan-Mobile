@@ -130,7 +130,7 @@ class _WorkoutPlanPageState extends State<WorkoutPlanPage> {
                 final idx = entry.key;
                 final item = entry.value;
                 return _TimelineEventRow(
-                  key: Key('timelineRow_${idx}'),
+                  key: Key('timelineRow_$idx'),
                   timeLabel: item.timeLabel,
                   title: item.title,
                   subtitle: item.subtitle,
@@ -148,7 +148,7 @@ class _WorkoutPlanPageState extends State<WorkoutPlanPage> {
                         )
                       : null,
                 );
-              }).toList(),
+              }),
             const SizedBox(height: 24),
 
             // Section 3: Workout Plan Timeline (Multi-day)
@@ -291,7 +291,7 @@ class _WorkoutPlanPageState extends State<WorkoutPlanPage> {
                   ),
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),
