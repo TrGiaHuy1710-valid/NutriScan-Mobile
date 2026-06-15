@@ -1,20 +1,39 @@
 # Main Screens
 
-## 1. Onboarding Screen
+## Main Bottom Navigation
 
-Mục tiêu: giải thích app làm gì và lấy preference cơ bản.
+```text
+Home
+Foods
+Workout
+Profile
+```
 
-### Nội dung
+The old visible `Meals` tab is removed.
+
+Meal logging is hidden/internal and opened from actions.
+
+---
+
+## 1. OnboardingPage
+
+Purpose: explain the app and collect basic preferences.
+
+Content:
 
 ```text
 Welcome
-Health goal nhẹ
+Health goal
+Age range, not exact age if possible
 Activity level
-Workout preference
+Workout level
+Food preferences
+Allergies or avoid list
 Calendar connect optional
+Safety note for teen/young users
 ```
 
-### Button chính
+Primary actions:
 
 ```text
 Get Started
@@ -23,30 +42,33 @@ Skip for now
 
 ---
 
-## 2. Today Dashboard
+## 2. DashboardPage
 
-Màn quan trọng nhất.
+Purpose: show today's health snapshot and quick actions.
 
-### Cards
+Cards:
 
 ```text
-Today Summary Card
-Calories / Macro Card
-Meals Today Card
-Workout Today Card
-Quick Actions
+Greeting
+Today calories summary
+Protein/carbs/fat summary
+Meals today list
+Workout today card
+Bought/scanned prompt, optional
+Quick actions
 ```
 
-### Quick Actions
+Quick actions:
 
 ```text
-Scan Food
 Add Meal
-Plan Workout
+Scan Food
 Scan Ingredient
+Scan Barcode
+Plan Workout
 ```
 
-### UI gợi ý
+Example:
 
 ```text
 Good morning, Huy
@@ -54,20 +76,124 @@ Good morning, Huy
 Today
 Calories: 1250 / 2000
 Protein: 45g
-Water: 4 cups
 Workout: Not scheduled
 
-[Add Meal] [Scan Ingredient]
+[Add Meal] [Scan Food]
+[Scan Ingredient] [Scan Barcode]
 [Plan Workout]
 ```
 
 ---
 
-## 3. Add Meal Screen
+## 3. FoodsDiscoverPage
 
-Mục tiêu: thêm bữa ăn nhanh nhất có thể.
+Purpose: show food recommendations and product discovery without feeling like a shopping app.
 
-### Input
+Sections:
+
+```text
+Good for today
+Easy meal ideas
+Products you scanned
+Bought today
+High protein options
+Light meal ideas
+Balanced meal ideas
+Simple ingredients for home cooking
+```
+
+Data sources in MVP:
+
+```text
+Mock recommendations
+Mock profile preferences
+Daily nutrition summary
+Confirmed scanned products
+BoughtFoodItem local state
+```
+
+Actions:
+
+```text
+View food/product detail
+Add recommended meal to plan
+Add as meal
+Mark as bought today
+Scan ingredient/barcode
+```
+
+Important:
+- Do not make the screen feel shopping-first.
+- Do not recommend pills, powders, or medical supplements automatically.
+- "Supplementary foods" means normal foods that support nutrition, such as yogurt, eggs, beans, milk, tofu, fruit, nuts.
+
+---
+
+## 4. WorkoutPlanPage
+
+Purpose: choose a short workout from fake free time slots.
+
+Content:
+
+```text
+Free slots
+Workout suggestions
+Duration filter: 5/10/15/20/30 minutes
+Difficulty: beginner
+Equipment: none or available equipment
+Schedule button
+```
+
+Example:
+
+```text
+Free slot: 17:30 - 18:00
+Suggestion: 15-min light full body workout
+[Schedule]
+```
+
+---
+
+## 5. ProfilePage
+
+Purpose: collect user profile, body/status info, safety preferences, and recommendation inputs.
+
+Fields:
+
+```text
+Name
+Age range
+Current body/status input
+Activity level
+Workout level
+Food preferences
+Allergies or avoid list
+Main health goal:
+- lose weight
+- maintain weight
+- gain weight
+- build healthy habits
+Preferred workout duration
+Available equipment
+Calendar connection status
+```
+
+Safety:
+- Use neutral wording.
+- Avoid appearance pressure.
+- Avoid strict weight-loss guidance for teen/young users.
+
+---
+
+## Hidden/Internal Screens
+
+These screens are not bottom navigation items.
+
+## AddMealPage
+
+Opened from Dashboard, scan confirmation, or Foods recommendations.
+
+Input:
 
 ```text
 Meal type
@@ -77,91 +203,66 @@ Calories
 Protein
 Carbs
 Fat
+Save
 ```
 
-### Smart default
+## MealConfirmPage
+
+Purpose: confirm a food/scan/recommendation before saving as MealLog.
+
+Content:
 
 ```text
-Buổi sáng -> Breakfast
-Buổi trưa -> Lunch
-Buổi tối -> Dinner
+Food name
+Portion
+Estimated calories
+Macros
+Edit
+Confirm as meal
 ```
 
----
+## ScanIngredientPage / ScanBarcodePage
 
-## 4. Meal Detail / Confirm Screen
+MVP uses mock data.
 
-Mục tiêu: xác nhận kết quả trước khi lưu.
-
-### Nội dung
+Flow:
 
 ```text
-Tên món
-Khẩu phần
-Calo ước lượng
-Macro
-Edit button
-Confirm button
+Open mock scan
+-> Show detected product
+-> Show ingredients and insights
+-> Confirm product
+-> Add to Bought Today
+-> Optional Add as Meal
 ```
 
----
+## ScanResultPage
 
-## 5. Scan Ingredient Screen
-
-MVP dùng mock trước.
-
-### Flow
+Shows:
 
 ```text
-Open camera/mock scan
-→ OCR/mock ingredient text
-→ Show ingredient list
-→ Show insight
-→ Save optional
+ScannedProduct
+IngredientInsight list
+Confirm product
+Add to bought today
+Add as meal, optional
 ```
 
-### Insight examples
+## FoodProductDetailPage
+
+Shows:
 
 ```text
-High sugar
-High sodium
-Good protein source
-Contains fiber
+Product details
+Ingredients
+Insights
+Bought today status
+Optional add as meal
 ```
 
-Không dùng ngôn ngữ gây áp lực kiểu "xấu", "cấm ăn".
+## CalendarSlotsPage
 
----
-
-## 6. Workout Plan Screen
-
-Mục tiêu: chọn bài tập dựa trên thời gian rảnh.
-
-### Nội dung
-
-```text
-Free slots
-Workout suggestions
-Duration filter: 5/10/15/20/30 minutes
-Difficulty: beginner
-Equipment: none
-```
-
-### Example
-
-```text
-Free slot: 17:30 - 18:00
-Suggestion: 15-min full body light workout
-[Schedule]
-```
-
----
-
-## 7. Calendar Slots Screen
-
-Mục tiêu: hiển thị slot rảnh từ fake data hoặc Google Calendar.
-
-### MVP
+MVP:
 
 ```text
 Fake free slots
@@ -169,7 +270,7 @@ Choose slot
 Schedule workout
 ```
 
-### Sau MVP
+Later:
 
 ```text
 Google Calendar FreeBusy API
@@ -177,52 +278,11 @@ Create workout event
 Sync event id
 ```
 
----
+## MealHistoryPage
 
-## 8. History Screen
-
-Không cần quá phức tạp trong MVP.
-
-### Có thể có
+Optional later:
 
 ```text
 Last 7 days meals
-Workout history
-Simple weekly summary
-```
-
----
-
-## 9. Profile / Settings Screen
-
-### Nội dung
-
-```text
-Name
-Activity level
-Workout level
-Food preference
-Daily reminder
-Calendar connection
-Data export/delete
-```
-
----
-
-# Bottom Navigation đề xuất
-
-```text
-Dashboard
-Meals
-Workout
-Profile
-```
-
-Hoặc bản tối giản hơn:
-
-```text
-Home
-Log
-Plan
-Profile
+Simple weekly nutrition summary
 ```

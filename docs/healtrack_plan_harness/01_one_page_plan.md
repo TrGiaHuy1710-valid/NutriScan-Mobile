@@ -1,95 +1,150 @@
 # One-page Plan: HealTrack Daily
 
-## 1. Tên dự án
+## 1. Project Name
 
 ```text
 HealTrack Daily
 ```
 
-## 2. Mô tả một câu
+## 2. One-sentence Description
 
-HealTrack Daily là app theo dõi sức khỏe hằng ngày, giúp người dùng ghi bữa ăn, ước lượng calo, kiểm tra ingredient và tự lên lịch tập nhẹ vào thời gian rảnh thông qua Google Calendar.
+HealTrack Daily is a simple daily health tracking app that helps users see today's nutrition, log meals, discover useful everyday foods, track scanned/bought products, and plan short workouts from free time.
 
-## 3. Vấn đề cần giải quyết
+## 3. Problem
 
-Người dùng muốn sống lành mạnh hơn nhưng thường gặp 4 vấn đề:
+Users who want healthier routines often struggle with:
 
 ```text
-1. Ghi bữa ăn thủ công mất thời gian.
-2. Không biết món ăn/sản phẩm có thành phần gì đáng chú ý.
-3. Không biết hôm nay đã ăn/uống/vận động đủ chưa.
-4. Có thời gian rảnh nhưng không biết nên tập lúc nào và tập gì.
+1. Logging meals quickly without a complex food diary.
+2. Knowing what to cook or buy based on today's nutrition.
+3. Understanding scanned products or ingredient labels at a simple level.
+4. Remembering what food/products they bought today.
+5. Finding short safe workouts that fit their schedule.
 ```
 
-## 4. Giải pháp
+## 4. Solution
 
-App cung cấp một dashboard đơn giản:
+The app provides:
 
 ```text
-Hôm nay đã ăn gì?
-Tổng calo/macro ước lượng là bao nhiêu?
-Có ingredient nào cần chú ý không?
-Hôm nay còn slot rảnh nào để tập 10-20 phút không?
+Home dashboard:
+- Calories and macros for today.
+- Meals logged today.
+- Workout today.
+- Quick actions: Add Meal, Scan Food, Scan Ingredient, Scan Barcode, Plan Workout.
+
+Foods / Discover:
+- Good for today.
+- Easy meal ideas.
+- Products scanned.
+- Bought today.
+- Simple ingredients for home cooking.
+- Mock recommendations based on profile and nutrition status.
+
+Profile:
+- Health goal and preferences.
+- Body/status information in neutral wording.
+- Allergies and avoid list.
+- Workout preference and calendar status.
 ```
 
-## 5. Người dùng mục tiêu
+## 5. Target Users
 
 ```text
-Sinh viên, người mới bắt đầu quan tâm sức khỏe, người bận học/làm, người muốn app đơn giản hơn MyFitnessPal.
+Students, busy workers, beginners, and people who want a simpler alternative to heavy calorie-counting apps.
 ```
 
-## 6. Giá trị chính
+The product should support healthy habits without body-shaming or pressure.
+
+## 6. Core Value
 
 ```text
-1. Ghi bữa ăn nhanh.
-2. Xem tổng quan mỗi ngày.
-3. Scan ingredient/barcode để hiểu sản phẩm.
-4. Tự tìm slot rảnh và gợi ý workout ngắn.
-5. Dễ dùng, ít thao tác, không dashboard rối.
+1. Add a meal quickly.
+2. See today's nutrition summary.
+3. Discover simple foods and meals that fit today's needs.
+4. Confirm scanned products and add them to bought today.
+5. Plan short workouts from free slots.
 ```
 
 ## 7. Core User Flow
 
 ```text
-Mở app
-→ Xem Today Dashboard
-→ Add Meal hoặc Scan Food/Ingredient
-→ App ước lượng calo và macro
-→ User xác nhận/chỉnh sửa
-→ Dashboard cập nhật
-→ App tìm slot rảnh trong lịch
-→ Gợi ý workout phù hợp
-→ User bấm Schedule
-→ Workout được lưu và có thể add vào Google Calendar
+Open app
+-> View Dashboard
+-> Add Meal or Scan Food/Product
+-> Confirm result
+-> Dashboard updates nutrition
+-> Foods screen updates scanned/bought/recommended food sections
+-> Plan workout from fake free slot
+-> Dashboard shows scheduled workout
 ```
 
-## 8. MVP v1
+## 8. MVP v0
 
-MVP v1 không làm tất cả ngay. Chỉ tập trung vào luồng chạy được:
+UI-first with mock data:
 
 ```text
-Dashboard hôm nay
-Add meal thủ công bằng mock data
-Tính tổng calo/macro cơ bản
-Workout suggestion theo slot rảnh fake
-Schedule workout mock
-Profile preference đơn giản
+Dashboard
+Foods / Discover
+Add Meal hidden/internal flow
+Scan Ingredient / Barcode mock flow
+Workout Plan
+Profile with body/status and goal input
+Mock recommendations
+No backend
+No real Google Calendar
+No real AI
+No real nutrition API
 ```
 
-## 9. Không làm trong MVP v1
+## 9. MVP v1
+
+First working vertical slices:
 
 ```text
-AI nhận diện món ăn bằng ảnh 100%.
-Wearable/HealthKit/Health Connect.
-Payment.
-Social feed.
-Diet plan phức tạp.
-Recommendation y tế.
-Dashboard quá nhiều biểu đồ.
+Primary:
+Dashboard -> Add Meal -> Save -> Dashboard updated
+
+Secondary:
+Scan Ingredient/Barcode mock -> Confirm product -> Add to Bought Today -> Foods screen updated
+
+Third:
+Profile goal/preferences -> Foods recommendations update using mock rule-based logic
+
+Fourth:
+Workout mock slots -> Schedule workout -> Dashboard updated
 ```
 
-## 10. Định vị sản phẩm
+## 10. Out Of Scope For Early MVP
 
 ```text
-Một app nhỏ giúp bạn ghi bữa ăn, hiểu ingredient và tự xếp lịch vận động ngắn mỗi ngày.
+Backend
+Database
+Real Google Calendar
+Real OCR
+Real barcode scanner/API
+Real Open Food Facts API
+Real AI food image recognition
+Medical recommendations
+Supplement/pill/powder recommendations
+Payment
+Social feed
+Extreme diet planning
 ```
+
+## 11. Safety Positioning
+
+HealTrack Daily is not a medical app.
+
+It should use neutral, supportive language:
+
+```text
+health goal
+energy
+routine
+balanced eating
+movement
+steady habits
+```
+
+For teen or young users, strict weight-loss guidance should be avoided and the app should advise discussing goals with a trusted adult or qualified professional.
