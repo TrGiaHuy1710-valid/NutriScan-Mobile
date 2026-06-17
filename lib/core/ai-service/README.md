@@ -175,4 +175,5 @@ curl -X POST http://localhost:8000/api/v1/food/analyze \
 2. **Ngrok API fails with `4040/api/tunnels` error:**
    Wait an extra second for Ngrok client initialization or run `ngrok http 8000` manually in a separate shell window.
 3. **Gemini returns invalid JSON format:**
-   The backend configures `GenerationConfig` with strict `response_schema` constraints. If the model returns incomplete structures, the wrapper catches and triggers `GEMINI_INVALID_RESPONSE` which automatically falls back to safe manual forms.
+   The backend uses prompt-based JSON enforcement and validates the results on the server using Pydantic. If the model returns malformed JSON or invalid structures, the wrapper catches this, raises a `GEMINI_INVALID_RESPONSE` error, and automatically triggers the safe manual input fallback.
+

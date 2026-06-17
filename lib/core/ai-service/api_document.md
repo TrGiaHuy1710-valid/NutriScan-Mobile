@@ -211,10 +211,29 @@ If a request fails with an HTTP error status (4xx or 5xx), the response body is 
 ### Supported Error Codes:
 * `GEMINI_TIMEOUT` (504 Gateway Timeout): Gemini API call timed out.
 * `GEMINI_QUOTA_EXCEEDED` (429 Too Many Requests): Gemini API limit reached or key not configured.
-* `GEMINI_INVALID_RESPONSE` (502 Bad Gateway): Gemini API returned empty or invalid JSON formatting.
+* `GEMINI_INVALID_RESPONSE` (502 Bad Gateway): Gemini API returned empty/invalid JSON, or the JSON failed backend model validation constraints.
 * `IMAGE_TOO_LARGE` (400 Bad Request): Image file exceeds 10MB size limit.
 * `IMAGE_NOT_SUPPORTED` (400 Bad Request): File format is not standard image mime-type (JPEG, PNG, WEBP, HEIC).
 * `BARCODE_NOT_FOUND` (404 Not Found): Barcode failed lookup and has been logged for manual fallback.
-* `VALIDATION_ERROR` (400 Bad Request): Schema fields failed strict typing constraints.
+* `VALIDATION_ERROR` (400 Bad Request): Request parameters or request body failed type or formatting constraints.
 * `HTTP_ERROR` (4xx): Base router/server redirection or missing path issues.
 * `UNKNOWN_ERROR` (500 Internal Server Error): Unexpected system crash.
+
+---
+
+## Technical Notes (AI JSON Generation & Backend Validation)
+
+### Prompt-based JSON Enforcement
+To avoid schema compatibility errors with the Gemini API (specifically the `Unknown field for Schema: default` error generated when using Pydantic models directly as `response_schema` in `GenerationConfig`), the backend implements prompt-based JSON enforcement.
+
+1. The API calls the Gemini 2.5 Flash model with an explicit description of the expected output JSON structure inside the prompt.
+2. The config is set to `response_mime_type="application/json"` to ensure the model outputs a valid JSON string.
+
+### Backend Sanitization and Validation Flow
+Once a response is returned by the Gemini API, the following pipeline is executed:
+
+1. **Sanitization:** The `safe_parse_gemini_json` utility cleans the output, strips whitespace, and removes markdown code block fences (e.g. ` ```json ... ``` `) if present.
+2. **Parsing:** The string is loaded into a dictionary using Python's native `json.loads`.
+3. **Validation:** The dictionary is validated against the target Pydantic schemas (`FoodAnalysisData` or `IngredientAnalysisData`) using `.model_validate()`.
+4. **Fallback Execution:** If any stage of sanitization, parsing, or validation fails, the system logs the incident and returns the standard `manual_input_required` fallback payload with a success status of `false`, allowing the mobile client to render manual inputs gracefully.
+
