@@ -135,6 +135,22 @@ class AppDatabase {
         user_id TEXT NOT NULL
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS user_profiles (
+        id INTEGER PRIMARY KEY CHECK (id = 1),
+        name TEXT NOT NULL,
+        weight REAL NOT NULL,
+        height REAL NOT NULL,
+        age INTEGER NOT NULL,
+        health_goal TEXT NOT NULL,
+        dietary_restrictions TEXT NOT NULL,
+        target_calories INTEGER NOT NULL,
+        target_protein INTEGER NOT NULL,
+        target_carbs INTEGER NOT NULL,
+        target_fat INTEGER NOT NULL
+      )
+    ''');
   }
 
   Future<void> _seedFixedLocalAccount(Database db) async {
@@ -153,17 +169,38 @@ class AppDatabase {
         'mock_password_token': fixedLocalPasswordToken,
         'created_at': DateTime(2026, 6, 14).toIso8601String(),
       });
-      return;
+    } else {
+      await db.update(
+        'auth_users',
+        {
+          'display_name': fixedLocalDisplayName,
+          'mock_password_token': fixedLocalPasswordToken,
+        },
+        where: 'email = ?',
+        whereArgs: [fixedLocalEmail],
+      );
     }
 
-    await db.update(
-      'auth_users',
-      {
-        'display_name': fixedLocalDisplayName,
-        'mock_password_token': fixedLocalPasswordToken,
-      },
-      where: 'email = ?',
-      whereArgs: [fixedLocalEmail],
+    final existingProfile = await db.query(
+      'user_profiles',
+      where: 'id = ?',
+      whereArgs: [1],
+      limit: 1,
     );
+    if (existingProfile.isEmpty) {
+      await db.insert('user_profiles', {
+        'id': 1,
+        'name': 'Huy Nguyễn',
+        'weight': 60.0,
+        'height': 165.0,
+        'age': 22,
+        'health_goal': 'Giữ cân',
+        'dietary_restrictions': 'Shellfish',
+        'target_calories': 2000,
+        'target_protein': 120,
+        'target_carbs': 230,
+        'target_fat': 67,
+      });
+    }
   }
 }

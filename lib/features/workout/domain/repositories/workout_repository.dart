@@ -12,4 +12,6 @@ abstract class WorkoutRepository {
   });
 
   Future<WorkoutPlan> completeWorkout(WorkoutPlan workout);
+
+  Future<void> clearAllWorkouts();
 }

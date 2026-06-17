@@ -53,6 +53,20 @@ class FakeNutritionRepository implements NutritionRepository {
     return meal;
   }
 
+  @override
+  Future<void> deleteMealLog(String id) async {
+    await _ensureLoaded();
+    _meals.removeWhere((meal) => meal.id == id);
+    await _persist();
+  }
+
+  @override
+  Future<void> clearAllMeals() async {
+    await _ensureLoaded();
+    _meals.clear();
+    await _persist();
+  }
+
   Future<void> _ensureLoaded() async {
     if (_hasLoaded) {
       return;

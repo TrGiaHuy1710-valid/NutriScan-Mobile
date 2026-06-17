@@ -196,6 +196,12 @@ class FakeWorkoutRepository implements WorkoutRepository {
     return _scheduledWorkout!;
   }
 
+  @override
+  Future<void> clearAllWorkouts() async {
+    _scheduledWorkout = null;
+    await _persistScheduledWorkout();
+  }
+
   Future<void> _ensureScheduledWorkoutLoaded() async {
     if (_hasLoadedScheduledWorkout) {
       return;

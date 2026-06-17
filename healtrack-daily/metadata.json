@@ -1,0 +1,6 @@
+{
+  "name": "HealTrack Daily",
+  "description": "Ứng dụng theo dõi dinh dưỡng lành mạnh, đề xuất món ăn và thiết lập lịch bài tập.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

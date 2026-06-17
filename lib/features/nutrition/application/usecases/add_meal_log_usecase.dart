@@ -24,12 +24,12 @@ class AddMealLogParams {
 }
 
 class AddMealLogUseCase {
-  const AddMealLogUseCase(this._repository);
+  const AddMealLogUseCase(this.repository);
 
-  final NutritionRepository _repository;
+  final NutritionRepository repository;
 
   Future<MealLog> call(AddMealLogParams params) {
-    return _repository.addMealLog(
+    return repository.addMealLog(
       mealType: params.mealType,
       foodName: params.foodName,
       portion: params.portion,

@@ -179,6 +179,26 @@ class WorkoutCubit extends ChangeNotifier {
     return plans;
   }
 
+  Future<void> clearAllWorkouts() async {
+    try {
+      await _scheduleWorkoutUseCase.repository.clearAllWorkouts();
+      _emit(
+        _state.copyWith(
+          scheduledWorkout: null,
+          upcomingPlans: _generateMockUpcomingPlans(null),
+          clearSelectedSlot: true,
+        ),
+      );
+    } catch (_) {
+      _emit(
+        _state.copyWith(
+          status: WorkoutStatus.failure,
+          errorMessage: 'Unable to clear workouts right now.',
+        ),
+      );
+    }
+  }
+
   void _emit(WorkoutState state) {
     _state = state;
     notifyListeners();

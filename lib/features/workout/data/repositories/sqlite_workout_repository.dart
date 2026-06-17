@@ -57,6 +57,12 @@ class SqliteWorkoutRepository implements WorkoutRepository {
     return completedWorkout;
   }
 
+  @override
+  Future<void> clearAllWorkouts() async {
+    final db = await _database.database;
+    await db.delete('scheduled_workout');
+  }
+
   Map<String, Object?> _workoutToRow(WorkoutPlan workout) {
     return {
       'id': workout.id,

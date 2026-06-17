@@ -78,6 +78,18 @@ class SqliteNutritionRepository implements NutritionRepository {
     };
   }
 
+  @override
+  Future<void> deleteMealLog(String id) async {
+    final db = await _database.database;
+    await db.delete('meal_logs', where: 'id = ?', whereArgs: [id]);
+  }
+
+  @override
+  Future<void> clearAllMeals() async {
+    final db = await _database.database;
+    await db.delete('meal_logs');
+  }
+
   MealLog _mealFromRow(Map<String, Object?> row) {
     return MealLog(
       id: row['id'] as String,

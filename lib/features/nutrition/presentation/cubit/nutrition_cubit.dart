@@ -65,6 +65,47 @@ class NutritionCubit extends ChangeNotifier {
     }
   }
 
+  Future<void> deleteMeal(String id) async {
+    try {
+      await _addMealLogUseCase.repository.deleteMealLog(id);
+      final meals = await _getTodayMealsUseCase();
+      _emit(
+        NutritionState(
+          status: NutritionStatus.loaded,
+          meals: meals,
+          summary: _calculateTodayNutritionUseCase(meals),
+        ),
+      );
+    } catch (_) {
+      _emit(
+        _state.copyWith(
+          status: NutritionStatus.failure,
+          errorMessage: 'Unable to delete this meal right now.',
+        ),
+      );
+    }
+  }
+
+  Future<void> clearAllMeals() async {
+    try {
+      await _addMealLogUseCase.repository.clearAllMeals();
+      _emit(
+        NutritionState(
+          status: NutritionStatus.loaded,
+          meals: const [],
+          summary: _calculateTodayNutritionUseCase(const []),
+        ),
+      );
+    } catch (_) {
+      _emit(
+        _state.copyWith(
+          status: NutritionStatus.failure,
+          errorMessage: 'Unable to clear meals right now.',
+        ),
+      );
+    }
+  }
+
   void _emit(NutritionState state) {
     _state = state;
     notifyListeners();

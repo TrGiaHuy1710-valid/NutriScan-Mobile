@@ -62,6 +62,47 @@ class FoodDiscoverCubit extends ChangeNotifier {
     }
   }
 
+  Future<void> deleteBoughtFood(String id) async {
+    final items = List<BoughtFoodItem>.from(_state.boughtToday)
+      ..removeWhere((existing) => existing.id == id);
+
+    try {
+      await _saveBoughtTodayUseCase(items);
+      _emit(
+        FoodDiscoverState(
+          status: FoodDiscoverStatus.loaded,
+          boughtToday: items,
+        ),
+      );
+    } catch (_) {
+      _emit(
+        _state.copyWith(
+          status: FoodDiscoverStatus.failure,
+          errorMessage: 'Unable to delete bought-today food.',
+        ),
+      );
+    }
+  }
+
+  Future<void> clearBoughtFoods() async {
+    try {
+      await _saveBoughtTodayUseCase(const []);
+      _emit(
+        const FoodDiscoverState(
+          status: FoodDiscoverStatus.loaded,
+          boughtToday: [],
+        ),
+      );
+    } catch (_) {
+      _emit(
+        _state.copyWith(
+          status: FoodDiscoverStatus.failure,
+          errorMessage: 'Unable to clear bought-today foods.',
+        ),
+      );
+    }
+  }
+
   void _emit(FoodDiscoverState state) {
     _state = state;
     notifyListeners();

@@ -13,4 +13,7 @@ abstract class NutritionRepository {
     required int fat,
     List<String> tags,
   });
+
+  Future<void> deleteMealLog(String id);
+  Future<void> clearAllMeals();
 }
